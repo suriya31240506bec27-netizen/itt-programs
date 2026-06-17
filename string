@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <stdbool.h>
+
+#define ALPHABET_SIZE 26
+
+bool areAnagrams(const char *str1, const char *str2) {
+    int counts[ALPHABET_SIZE] = {0};
+    int len1 = strlen(str1);
+    int len2 = strlen(str2);
+
+    for (int i = 0; i < len1; i++) {
+        if (isalpha((unsigned char)str1[i])) {
+            int index = tolower((unsigned char)str1[i]) - 'a';
+            counts[index]++;
+        }
+    }
+
+    for (int i = 0; i < len2; i++) {
+        if (isalpha((unsigned char)str2[i])) {
+            int index = tolower((unsigned char)str2[i]) - 'a';
+            counts[index]--;
+        }
+    }
+
+    for (int i = 0; i < ALPHABET_SIZE; i++) {
+        if (counts[i] != 0) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+int main() {
+    char s1[] = "silent";
+    char s2[] = "listen";
+    printf("Input: \"%s\", \"%s\" -> Output: %s\n", s1, s2, areAnagrams(s1, s2) ? "Yes" : "No");
+
+    char s3[] = "They see";
+    char s4[] = "The eyes";
+    printf("Input: \"%s\", \"%s\" -> Output: %s\n", s3, s4, areAnagrams(s3, s4) ? "Yes" : "No");
+
+    return 0;
+}
