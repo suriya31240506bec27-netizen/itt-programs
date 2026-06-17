@@ -1,0 +1,51 @@
+#include <stdio.h>
+
+#define MAX_FIB 100
+
+void find_fibonacci_sum(int target) {
+    if (target <= 0) {
+        printf("None\n");
+        return;
+    }
+
+    // 1. Generate Fibonacci numbers up to the target
+    // Start with 1 and 2 to avoid duplicate 1s (consecutive indices)
+    int fib[MAX_FIB];
+    fib[0] = 1;
+    fib[1] = 2;
+    int count = 2;
+
+    while (1) {
+        int next_fib = fib[count - 1] + fib[count - 2];
+        if (next_fib > target) {
+            break;
+        }
+        fib[count] = next_fib;
+        count++;
+    }
+
+    // 2. Greedily pick the largest possible Fibonacci numbers
+    int first = 1; // Flag to manage comma formatting in output
+    for (int i = count - 1; i >= 0; i--) {
+        if (fib[i] <= target) {
+            if (!first) {
+                printf(",");
+            }
+            printf("%d", fib[i]);
+            target -= fib[i];
+            first = 0;
+            
+            if (target == 0) {
+                break;
+            }
+        }
+    }
+    printf("\n");
+}
+
+int main() {
+    int input_val = 64;
+    printf("Input: %d Output: ", input_val);
+    find_fibonacci_sum(input_val);
+    return 0;
+}
