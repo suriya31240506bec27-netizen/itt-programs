@@ -1,0 +1,92 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure to represent an interval
+typedef struct {
+    int start;
+    int end;
+} Interval;
+
+// 1. Comparator function to sort intervals by their start time
+int compare_intervals(const void *a, const void *b) {
+    Interval *intervalA = (Interval *)a;
+    Interval *intervalB = (Interval *)b;
+    return (intervalA->start - intervalB->start);
+}
+
+// 2. Core function to merge overlapping intervals
+Interval* merge_intervals(Interval *intervals, int intervals_size, int *return_size) {
+    if (intervals_size <= 0) {
+        *return_size = 0;
+        return NULL;
+    }
+
+    // Sort intervals using built-in qsort
+    qsort(intervals, intervals_size, sizeof(Interval), compare_intervals);
+
+    // Allocate memory for the worst-case output size
+    Interval *merged = (Interval *)malloc(intervals_size * sizeof(Interval));
+    
+    // Initialize the first interval
+    merged[0] = intervals[0];
+    int merged_count = 1;
+
+    for (int i = 1; i < intervals_size; i++) {
+        // If current interval overlaps with the last merged interval
+        if (intervals[i].start <= merged[merged_count - 1].end) {
+            // Update the end time to the maximum of both
+            if (intervals[i].end > merged[merged_count - 1].end) {
+                merged[merged_count - 1].end = intervals[i].end;
+            }
+        } else {
+            // No overlap, add the current interval as a new entry
+            merged[merged_count] = intervals[i];
+            merged_count++;
+        }
+    }
+
+    *return_size = merged_count;
+    return merged;
+}
+
+// Helper function to print intervals
+void print_intervals(Interval *intervals, int size) {
+    printf("[");
+    for (int i = 0; i < size; i++) {
+        printf("[%d,%d]", intervals[i].start, intervals[i].end);
+        if (i < size - 1) printf(",");
+    }
+    printf("]\n");
+}
+
+int main() {
+    // Example 1
+    Interval intervals1[] = {{1, 3}, {2, 6}, {8, 10}, {15, 18}};
+    int size1 = sizeof(intervals1) / sizeof(intervals1[0]);
+    int return_size1;
+
+    printf("Input 1: ");
+    print_intervals(intervals1, size1);
+    
+    Interval *result1 = merge_intervals(intervals1, size1, &return_size1);
+    printf("Output 1: ");
+    print_intervals(result1, return_size1);
+    free(result1);
+
+    printf("\n");
+
+    // Example 2
+    Interval intervals2[] = {{1, 4}, {4, 5}};
+    int size2 = sizeof(intervals2) / sizeof(intervals2[0]);
+    int return_size2;
+
+    printf("Input 2: ");
+    print_intervals(intervals2, size2);
+    
+    Interval *result2 = merge_intervals(intervals2, size2, &return_size2);
+    printf("Output 2: ");
+    print_intervals(result2, return_size2);
+    free(result2);
+
+    return 0;
+}
