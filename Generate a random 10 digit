@@ -1,0 +1,49 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+int main()
+{
+int a[10];
+int i,j;
+long no; // Using long to accomodate 10 digit number
+srand(time(0)); // for setting the seed value
+// Last digit is always 0 then only 10 digit no is divisible by 10
+a[9]=0;
+// To generate first digit random divisible by 1
+do
+{
+a[0]=rand()%10;
+}while(a[0]==a[9]);
+//To generate second digit in random so that first 2 digits divisible by 2
+do
+{
+a[1]=rand()%5*2;
+}while(a[0]==a[1]||a[1]==a[9]);
+//To generate third digit in random so that first 3 digits divisible by 3
+do
+{
+a[2]=rand()%10;
+}while((a[0]+a[1]+a[2])%3!=0||a[0]==a[2]||a[1]==a[2]||a[2]==a[9]);
+//To generate remaining digits in random so that they are not repeated
+for(i=3;i<=8;i++)
+{
+do
+{
+a[i]=rand()%10;
+for(j=i-1;j>=0;j--)
+if(a[i]==a[j])
+break;
+if(j!=-1)
+continue;
+else if(a[i]==a[9])
+continue;
+else
+break;
+}while(1);
+}
+//To convert the array into a single number
+for(no=0,i=0;i<=9;i++)
+no=no*10+a[i];
+
+printf("The 10 digit random number is %ld\n",no);
+}
