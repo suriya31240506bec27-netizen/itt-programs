@@ -1,0 +1,48 @@
+#include <stdio.h>
+
+int main() {
+    int n;
+
+    // Get integer input from the user
+    printf("Input: ");
+    if (scanf("%d", &n) != 1) {
+        return 1;
+    }
+
+    // Print the first line
+    printf("Output: 0\n");
+
+    // Loop for each subsequent row
+    for (int i = 1; i <= n; i++) {
+        // 1. Print the left-hand outer border (counting up from 1 to i)
+        // Note: For the very first row (i=1), this loop doesn't print anything 
+        // because the middle loop handles it.
+        for (int j = 1; j < i; j++) {
+            printf("%d", j);
+        }
+
+        // 2. Print the left-hand side of the middle pattern (counting up to n)
+        int start = n - i + 1;
+        for (int j = start; j <= n; j++) {
+            printf("%d", j);
+        }
+
+        // 3. Print the center zero
+        printf("0");
+
+        // 4. Print the right-hand side of the middle pattern (counting down from n)
+        for (int j = n; j >= start; j--) {
+            printf("%d", j);
+        }
+
+        // 5. Print the right-hand outer border (counting down to 1)
+        for (int j = i - 1; j >= 1; j--) {
+            printf("%d", j);
+        }
+
+        // Move to the next line
+        printf("\n");
+    }
+
+    return 0;
+}
