@@ -1,0 +1,38 @@
+#include<stdio.h>
+#include<ctype.h>
+# include<string.h>
+void reverse(char str[])
+{
+// Initialize left and right pointers
+int r = strlen(str) - 1, l = 0;
+char temp;
+// Traverse string from both ends until
+// 'l' and 'r'
+while (l < r)
+{
+// Ignore special characters
+if (!isalpha(str[l]))
+l++;
+else if(!isalpha(str[r]))
+r--;
+
+else // Both str[l] and str[r] are not spacial
+{
+//swap(str[l], str[r]);
+temp = str[l];
+str[l] = str[r];
+str[r] = temp;
+l++;
+r--;
+}
+}
+}
+intmain()
+{
+char str[] = "abc!!!b.c.d,e'f,ghi";
+printf("%s\n",str) ;
+reverse(str);
+printf( "Output string: " );
+printf("%s\n",str) ;
+return 0;
+}
