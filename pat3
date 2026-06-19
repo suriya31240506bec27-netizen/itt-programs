@@ -1,0 +1,61 @@
+#include<stdio.h>
+/*
+print left handside of 0
+n- input got from user
+spaces – number of spaces to be left before printing
+*/
+
+void printL(int n,int spaces)
+{
+if(spaces==n)
+return;
+else
+{
+int i;
+for(i=spaces+1;i<=n;i++)
+printf("%d\t",i);
+}
+}
+/*
+print right handside of 0
+n- input got from user
+end – number of values to print
+*/
+void printR(int n,int end)
+{
+if(end==0)
+return;
+else
+{
+int j=n; //j represents value to print
+int k=0;
+while(k<end)
+{
+printf("%d\t",j);
+j=j-1;
+k=k+1;
+}
+}
+}
+int main()
+{
+int n;
+printf("enter the value of n:\n");
+scanf("%d",&n);
+int end=0;
+int spaces=n;
+while(spaces>=0)
+{
+int i;
+//number of spaces to leave
+for(i=1;i<=spaces;i++)
+printf("\t");
+printL(n,spaces);
+printf("0\t");
+printR(n,end);
+printf("\n");
+end=end+1; //starting value of RHS
+spaces=spaces-1; //number of spaces to be left in LHS
+}
+return 0;
+}
